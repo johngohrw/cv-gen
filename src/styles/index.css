@@ -78,6 +78,7 @@ body {
 #page {
     opacity: 0;
     transition-duration: 200ms;
+    transition-delay: 200ms;
 }
 
 .page-frame {
@@ -89,8 +90,6 @@ body {
     flex-shrink: 0;
     margin: 3rem 1rem;
 }
-
-
 
 .credits-section {
     position: absolute;
