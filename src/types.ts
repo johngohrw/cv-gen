@@ -1,3 +1,5 @@
+import { themes } from "./themes";
+
 export type ResumeData = {
   profile: Profile;
   sections: ValidSection[];
@@ -45,5 +47,14 @@ export type Skill = {
 
 export type InputData = {
   defaultLanguage: string;
+  theme: keyof typeof themes;
   languages: { [langCode: string]: ResumeData };
+};
+
+export type Theme = {
+  name: string;
+  pageTemplate: string;
+  contactItemTemplate: string;
+  experienceSectionTemplate: string;
+  skillsSectionTemplate: string;
 };

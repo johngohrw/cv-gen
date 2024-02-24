@@ -1,4 +1,5 @@
 export const IDSchema = {
+  page: "page",
   profile: {
     name: "profile-name",
     caption: "profile-caption",

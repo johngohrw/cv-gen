@@ -1,5 +1,6 @@
 node_modules
 .parcel-cache
-dist
+dist/*
 .vscode
 .env
+!dist/themes

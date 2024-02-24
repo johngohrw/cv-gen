@@ -4,8 +4,10 @@ import {
   loadLanguageLinks,
   loadProfile,
   loadSections,
+  loadThemeTemplate,
 } from "./utils";
 import { InputData } from "./types";
+import { themes } from "./themes";
 
 const envResumeData = process.env.PRELOADED_RESUME_DATA;
 
@@ -34,9 +36,14 @@ function initResume(data: InputData) {
   const lang: keyof typeof data.languages =
     searchParams.lang ?? data.defaultLanguage ?? Object.keys(data.languages)[0];
 
+  const theme = themes[data.theme ?? "default"];
+  console.log(theme);
+
+  loadThemeTemplate(theme);
+
   let resumeData = data.languages[lang];
-  loadProfile(resumeData.profile);
-  loadSections(resumeData.sections);
+  loadProfile(theme, resumeData.profile);
+  loadSections(theme, resumeData.sections);
   loadLanguageLinks(Object.keys(data.languages));
 }
 

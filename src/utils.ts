@@ -1,9 +1,6 @@
 import Handlebars from "handlebars";
-import { contactItemTemplate } from "./components/contactSection";
-import { experienceSectionTemplate } from "./components/experienceSection";
-import { skillsSectionTemplate } from "./components/skillsSection";
 import { IDSchema } from "./schema";
-import { Profile, ValidSection } from "./types";
+import { Profile, Theme, ValidSection } from "./types";
 
 // decode an encoded searchParams object for both keys and values
 export const decodeSearchParamsObject = (searchParams: URLSearchParams) => {
@@ -40,22 +37,40 @@ export const appendDOMInnerHTML = (
   }
 };
 
-export const loadProfile = (profileData: Profile) => {
+export const loadThemeTemplate = async (theme: Theme) => {
+  var fileref = document.createElement("link");
+  fileref.rel = "stylesheet";
+  fileref.type = "text/css";
+  fileref.href = "themes/default/index.css";
+  document.getElementsByTagName("head")[0].appendChild(fileref);
+
+  const pageElement = Handlebars.compile(theme.pageTemplate);
+  const innerHTML = pageElement({});
+  setDOMInnerHTML(IDSchema.page, innerHTML);
+};
+
+export const loadProfile = (theme: Theme, profileData: Profile) => {
   setDOMInnerHTML(IDSchema.profile.name, profileData.name);
   setDOMInnerHTML(IDSchema.profile.caption, profileData.caption);
   profileData.links.forEach((link) => {
-    const contactLinkItem = Handlebars.compile(contactItemTemplate);
+    const contactLinkItem = Handlebars.compile(theme.contactItemTemplate);
     const innerHTML = contactLinkItem(link);
     appendDOMInnerHTML(IDSchema.profile.links, innerHTML);
   });
 };
 
-export const loadSections = (sectionsData: ValidSection[]) => {
+export const loadSections = (theme: Theme, sectionsData: ValidSection[]) => {
   sectionsData.forEach((section) => {
-    const sectionElement = Handlebars.compile(sectionMap[section.type]);
+    const sectionElement = Handlebars.compile(theme[sectionMap[section.type]]);
     const innerHTML = sectionElement(section);
     appendDOMInnerHTML(IDSchema.section.container, innerHTML);
   });
+};
+
+// maps section type key string to template string
+export const sectionMap: { [key: string]: keyof Theme } = {
+  experienceList: "experienceSectionTemplate",
+  skillList: "skillsSectionTemplate",
 };
 
 export const loadLanguageLinks = (langCodes: string[]) => {
@@ -67,11 +82,6 @@ export const loadLanguageLinks = (langCodes: string[]) => {
       }?lang=${langCode}">${langCode.toUpperCase()}</a>`
     );
   });
-};
-
-export const sectionMap = {
-  experienceList: experienceSectionTemplate,
-  skillList: skillsSectionTemplate,
 };
 
 export function initPrintButton() {
