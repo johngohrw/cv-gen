@@ -7,6 +7,4 @@ export const pageTemplate = `
         <div class="contact-container" id="profile-links"></div>
     </header>
     <div id="section-container"></div>
-    <link rel="stylesheet" type="text/css" href="./styles/default/theme.css"/>
-  
 `;
