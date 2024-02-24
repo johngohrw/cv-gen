@@ -2,7 +2,10 @@
   "name": "cv-gen",
   "version": "1.0.0",
   "description": "",
-  "source": "src/index.html",
+  "source": [
+    "./src/index.html",
+    "./src/builder.html"
+  ],
   "scripts": {
     "start": "parcel",
     "build": "parcel build"
@@ -10,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.11.20",
     "parcel": "^2.11.0"
   },
   "dependencies": {
