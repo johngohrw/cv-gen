@@ -23,7 +23,11 @@ To be expanded.
 
 ## To-do
 
-- [ ] Dynamically populate resume with externally-hosted JSON
-- [ ] Dynamically populate site metadata (title, description, favicon, etc)
+- [ ] Contact icon selector 
+- [x] Dynamically populate resume with externally-hosted JSON
 - [ ] Side-by-side resume editor with JSON export
+- [ ] Dynamically populate site metadata (title, description, favicon, etc)
+- [ ] Theming. Schema will need to be compatible with all themes.
+- [ ] Background customization
 - [ ] import existing JSON to update editor state
+- [ ] build/dev script that copies per-theme css files to dist folder
