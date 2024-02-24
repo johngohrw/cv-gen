@@ -38,6 +38,7 @@ export const appendDOMInnerHTML = (
 };
 
 export const loadThemeTemplate = async (theme: Theme) => {
+  await fetch("themes/default/index.css");
   var fileref = document.createElement("link");
   fileref.rel = "stylesheet";
   fileref.type = "text/css";
