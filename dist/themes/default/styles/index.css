@@ -1,0 +1,267 @@
+
+@import url("./globals.css");
+@import url("./fonts.css");
+
+section {
+    margin-bottom: 1.5rem;
+}
+
+.header-section {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 1rem;
+}
+
+.header-main {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-bottom: 8px;
+}
+
+.header-main h1 {}
+
+.header-main p {}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
+    gap: 6px 18px;
+}
+
+.contact-item {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.contact-icon {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.contact-label {}
+
+h2.section-title {
+    margin-bottom: 0.75rem;
+}
+
+.experience {
+    margin-bottom: 1.25rem;
+}
+
+.experience h3 {
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+.with-underline {
+    border-bottom: 1px solid var(--color-foregound-hint);
+}
+
+.experience-title {}
+
+.experience-subinfo {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.experience-date {}
+
+ul.experience-list {
+    padding-inline-start: 26px;
+    margin-block-start: 0.5em;
+    margin-block-end: 0em;
+}
+
+ul.experience-list li {}
+
+.skills-title-section {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.skills-legend {
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    height: 17px;
+}
+
+.skills-swatch {
+    display: flex;
+    margin: 0 10px;
+}
+
+.swatch {
+    width: 37px;
+    height: 12px;
+    -webkit-print-color-adjust: exact;
+}
+
+.skills-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 0.3rem;
+}
+
+.skills-item {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.skills-level-box {
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    -webkit-print-color-adjust: exact;
+}
+
+
+@media print {
+   
+}
+
+@media screen and (max-width: 952px) {
+    .bg-video {
+        opacity: 0;
+    }
+}
+
+@media screen and (max-width: 830px) {
+    body {
+        padding: 1rem;
+        padding-bottom: 3rem;
+    }
+}
+
+@media screen and (max-width: 794px) {
+    .page-frame {
+        padding: 32px;
+    }
+
+    section {
+        margin-bottom: 2.5rem;
+    }
+
+    .experience {
+        margin-bottom: 2rem;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .page-frame {
+        padding: 32px;
+    }
+
+    .header-section {
+        flex-flow: column nowrap;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+
+    .header-main {
+        margin-bottom: 1rem;
+    }
+
+    .contact-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 671px) {
+    .skills-title-section {
+        flex-flow: column nowrap;
+        margin-bottom: 1rem;
+    }
+
+    .skills-list {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 573px) {
+    body {
+        padding: 0.2rem;
+        padding-bottom: 3rem;
+    }
+
+    .page-frame {
+        padding: 24px;
+    }
+
+    .skills-list {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+
+@media screen and (max-width: 497px) {
+    .header-main h1 {
+        font-size: 36px;
+        margin-bottom: 0.2rem;
+    }
+
+    .header-main p {
+        display: flex;
+        flex-flow: column;
+        margin-bottom: 0.5rem;
+    }
+
+    .header-main .separator {
+        display: none;
+    }
+
+    .contact-container {
+        margin-bottom: 0.5rem;
+    }
+
+    .experience-subinfo {
+        flex-flow: column-reverse nowrap;
+        gap: 0.1rem;
+    }
+
+    .skills-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+@media screen and (max-width: 438px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+
+    .experience h3 {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    .experience .separator {
+        display: none;
+    }
+
+    .swatch {
+        width: 24px;
+    }
+}
+
+@media screen and (max-width: 383px) {
+    .header-main h1 {
+        font-size: 28px;
+    }
+
+    .swatch {
+        width: 16px;
+    }
+}

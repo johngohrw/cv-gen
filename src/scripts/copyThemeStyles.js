@@ -1,6 +1,6 @@
-const { resolve } = require("path");
+const { resolve, relative } = require("path");
 const { readdir } = require("fs").promises;
-const { writeFile, appendFile } = require("fs");
+const { writeFile, appendFile, copyFile, mkdir } = require("fs");
 
 const distThemesPath = "./dist/themes";
 const themesPath = "./src/themes";
@@ -8,12 +8,15 @@ const includedExtensions = ["css"];
 
 (async () => {
   console.log(`[copyThemeStyles.js] Copying theme assets...`);
-
   for await (const f of getFiles(themesPath)) {
-    // console.log(f, distThemesPath);
     const extension = f.slice(-4).replace(".", "");
     if (includedExtensions.includes(extension)) {
-      console.log("will copy", f, "to ", distThemesPath);
+      const srcFilePath = f;
+      const split = srcFilePath.split("/src/themes");
+      const relativePath = split[split.length - 1];
+      const destinationFilePath = distThemesPath + relativePath;
+      // console.log(srcFilePath + " >> " + destinationFilePath);
+      await copyFileAux(srcFilePath, destinationFilePath);
     }
   }
 
@@ -32,11 +35,13 @@ async function* getFiles(dir) {
   }
 }
 
-const copyFile = async (src, dist) =>
-  await fs.copyFile(src, dist, (err) => {
-    if (err) {
-      console.log("Error Found:", src, dist);
-    } else {
-      console.log("else", src, dist);
-    }
+const copyFileAux = async (src, dest) => {
+  const destFolder = dest.split("/").slice(0, -1).join("/");
+  // create dir
+  await mkdir(destFolder, { recursive: true }, (err) => {
+    if (err) throw err;
   });
+  await copyFile(src, dest, (err) => {
+    if (err) throw err;
+  });
+};

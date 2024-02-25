@@ -1,6 +1,6 @@
 import Handlebars from "handlebars";
-import { IDSchema } from "./schema";
-import { Profile, Theme, ValidSection } from "./types";
+import { Profile, Theme, ValidSection } from "../types";
+import { IDSchema } from "../themes/schema";
 
 // decode an encoded searchParams object for both keys and values
 export const decodeSearchParamsObject = (searchParams: URLSearchParams) => {
@@ -38,11 +38,10 @@ export const appendDOMInnerHTML = (
 };
 
 export const loadThemeTemplate = async (theme: Theme) => {
-  await fetch("themes/default/index.css");
   var fileref = document.createElement("link");
   fileref.rel = "stylesheet";
   fileref.type = "text/css";
-  fileref.href = "themes/default/index.css";
+  fileref.href = `themes/${theme.name}/styles/index.css`;
   document.getElementsByTagName("head")[0].appendChild(fileref);
 
   const pageElement = Handlebars.compile(theme.pageTemplate);
