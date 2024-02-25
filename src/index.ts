@@ -1,13 +1,13 @@
+import { themes } from "./themes";
+import { InputData } from "./types";
 import {
-  decodeSearchParamsObject,
+  getSearchParams,
   initPrintButton,
   loadLanguageLinks,
   loadProfile,
   loadSections,
   loadThemeTemplate,
 } from "./utils";
-import { InputData } from "./types";
-import { themes } from "./themes";
 
 export type ResumeState = keyof typeof resumeStateMap;
 
@@ -51,6 +51,9 @@ async function init() {
     } else {
       setResumeState("DATA_ERROR");
     }
+  } else {
+    const noDataContent = document.getElementById("no-data-content");
+    if (noDataContent) noDataContent.style.setProperty("display", "flex");
   }
 }
 setResumeState("IDLE");
@@ -76,12 +79,6 @@ async function initResume(data: InputData) {
   setResumeState("TEMPLATES_SUCCESS");
 }
 
-function getSearchParams() {
-  const url = new URL(window.location.href);
-  const searchParamsEncoded = new URLSearchParams(url.search);
-  return decodeSearchParamsObject(searchParamsEncoded);
-}
-
 export function setResumeState(state: ResumeState) {
   const message = resumeStateMap[state];
   setCenterMessage(message);
@@ -95,9 +92,11 @@ export function setResumeState(state: ResumeState) {
   // check if load prerequisites are met
   if (!Object.values(loadPrerequisites).includes(false)) {
     document
-      .getElementById("center-message")
+      .getElementById("fixed-middle-container")
       ?.style.setProperty("opacity", "0");
     document.getElementById("page")?.style.setProperty("opacity", "1");
+    document.getElementById("print-button")?.style.setProperty("opacity", "1");
+    document.getElementById("footer")?.style.setProperty("opacity", "1");
   }
 }
 

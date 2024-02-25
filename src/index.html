@@ -32,16 +32,41 @@
     <button id="print-button" title="Print">
       <img src="./assets/icons/print.svg" />
     </button>
+
     <main class="page-frame" id="page"></main>
 
-    <div class="center-message-container">
-      <div class="center-message-container-inner">
-        <div id="center-message"></div>
+    <div class="fixed-middle-container" id="fixed-middle-container">
+      <div class="fixed-middle-container-inner">
+        <div class="fixed-middle-content" id="fixed-middle-content">
+          <div id="center-message" style="pointer-events: auto"></div>
+          <div
+            id="no-data-content"
+            style="
+              display: none;
+              margin-top: 1rem;
+              justify-content: center;
+              width: 100%;
+              pointer-events: all;
+            "
+          >
+            <a
+              href="/builder"
+              style="
+                color: #e0e0e0;
+                font-family: sans-serif;
+                padding: 0.5rem 1rem;
+                font-size: 13px;
+              "
+            >
+              Start building your resume
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 
     <div
-      class="credits-section"
+      id="footer"
       style="
         width: 100%;
         max-width: 850px;

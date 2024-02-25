@@ -2,6 +2,12 @@ import Handlebars from "handlebars";
 import { Profile, Theme, ValidSection } from "../types";
 import { IDSchema } from "../themes/schema";
 
+export function getSearchParams() {
+  const url = new URL(window.location.href);
+  const searchParamsEncoded = new URLSearchParams(url.search);
+  return decodeSearchParamsObject(searchParamsEncoded);
+}
+
 // decode an encoded searchParams object for both keys and values
 export const decodeSearchParamsObject = (searchParams: URLSearchParams) => {
   return Object.entries(Object.fromEntries(searchParams.entries())).reduce(
