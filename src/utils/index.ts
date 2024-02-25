@@ -37,11 +37,15 @@ export const appendDOMInnerHTML = (
   }
 };
 
-export const loadThemeTemplate = async (theme: Theme) => {
+export const loadThemeTemplate = async (
+  theme: Theme,
+  stylesheetOnLoadCallback = () => {}
+) => {
   var fileref = document.createElement("link");
   fileref.rel = "stylesheet";
   fileref.type = "text/css";
   fileref.href = `themes/${theme.name}/styles/index.css`;
+  fileref.onload = stylesheetOnLoadCallback;
   document.getElementsByTagName("head")[0].appendChild(fileref);
 
   const pageElement = Handlebars.compile(theme.pageTemplate);
@@ -49,7 +53,7 @@ export const loadThemeTemplate = async (theme: Theme) => {
   setDOMInnerHTML(IDSchema.page, innerHTML);
 };
 
-export const loadProfile = (theme: Theme, profileData: Profile) => {
+export const loadProfile = async (theme: Theme, profileData: Profile) => {
   setDOMInnerHTML(IDSchema.profile.name, profileData.name);
   setDOMInnerHTML(IDSchema.profile.caption, profileData.caption);
   profileData.links.forEach((link) => {
