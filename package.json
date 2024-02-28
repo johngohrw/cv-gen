@@ -7,8 +7,9 @@
     "./src/builder.html"
   ],
   "scripts": {
-    "start": "node ./src/scripts/copyThemeStyles.js && parcel --no-cache",
-    "build": "node ./src/scripts/copyThemeStyles.js && parcel build && cd builder-app && npm install && npm run build"
+    "dev": "node ./src/scripts/copyThemeStyles.js && parcel --no-cache",
+    "build": "node ./src/scripts/copyThemeStyles.js && parcel build",
+    "buildAll": "node ./src/scripts/copyThemeStyles.js && parcel build && cd builder-app && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",

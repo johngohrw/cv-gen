@@ -84,12 +84,12 @@ export const sectionMap: { [key: string]: keyof Theme } = {
 };
 
 export const loadLanguageLinks = (langCodes: string[]) => {
-  langCodes.forEach((langCode) => {
+  langCodes.forEach((langCode) => {    
     appendDOMInnerHTML(
       IDSchema.languages.container,
       `<a href="${
         window.location.origin
-      }?lang=${langCode}">${langCode.toUpperCase()}</a>`
+      }?${new URLSearchParams({...getSearchParams(), lang: langCode}).toString()}">${langCode.toUpperCase()}</a>`
     );
   });
 };
