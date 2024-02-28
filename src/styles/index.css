@@ -128,8 +128,6 @@ body {
 }
 
 .fixed-middle-content {
-  /* border: 1px solid white; */
-
   position: absolute;
   top: 50%;
   left: 50%;
@@ -137,14 +135,13 @@ body {
 }
 
 #center-message {
-  min-width: 100px;
   text-align: center;
   font-family: sans-serif;
   font-size: 14px;
 
-  background: #353e4d;
+  background: #465671;
   color: #bababa;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   border-radius: 2px;
   box-shadow: 0px 3px 13px -3px rgba(0, 0, 0, 0.15);
 }
