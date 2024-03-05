@@ -1,5 +1,5 @@
 import Handlebars from "handlebars";
-import { Profile, Theme, ValidSection } from "../types";
+import { Profile, Theme, ValidSection, ValidSectionDataTypeNames } from "../../types";
 import { IDSchema } from "../themes/schema";
 
 export function getSearchParams() {

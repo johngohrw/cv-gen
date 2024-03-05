@@ -1,4 +1,5 @@
-import { themes } from "./themes";
+import { sectionMap } from "./src/utils";
+import { themes } from "./src/themes";
 
 export type ResumeData = {
   profile: Profile;
@@ -26,10 +27,12 @@ export type SkillSection = Section<Skill[], "skillList"> & {
   labels: { low: string; high: string };
 };
 
-export type Section<dataType, dataTypeName> = {
+export type ValidSectionDataTypeNames = keyof typeof sectionMap
+
+export type Section<dataType, sectionDataTypeName extends ValidSectionDataTypeNames> = {
   title: string;
   data: dataType;
-  type: dataTypeName;
+  type: sectionDataTypeName;
 };
 
 export type Experience = {
