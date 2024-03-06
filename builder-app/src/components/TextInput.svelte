@@ -7,7 +7,7 @@
 <input
   {...$$restProps}
   type="text"
-  class={`form-field-text ${$$restProps.class}`}
+  class={`form-field-text w-full ${$$restProps.class}`}
   bind:value
   {placeholder}
   {id}

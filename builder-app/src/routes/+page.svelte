@@ -90,16 +90,8 @@
   let sidebarWidth: number = 360;
   let showSidebar: boolean = true;
 
-  const handleFormChange = (accessorArray: string[], newValue: any) => {
-    formState = mutateDeepValue(
-      accessorArray,
-      formState,
-      newValue
-    ) as ResumeData;
-  };
-
   const addSection = (type: keyof typeof sectionTemplateMap) => {
-    const template = sectionTemplateMap[type];
+    const template = { ...sectionTemplateMap[type] };
     formState = { ...formState, sections: [...formState.sections, template] };
   };
 
@@ -108,7 +100,33 @@
     formState.profile.links = [...formState.profile.links, template];
   };
 
-  const mutateDeepValue = (accessor: string[], obj: object, newValue: any) => {
+  const addExperienceItem = (index: number) => {
+    const template = { ...experienceDataTemplate };
+    // @ts-ignore
+    formState.sections[index].data = [
+      ...formState.sections[index].data,
+      template,
+    ];
+  };
+
+  const addExperienceBulletItem = (
+    sectionIndex: number,
+    experienceIndex: number
+  ) => {
+    const existingItems = [
+      ...(formState.sections[sectionIndex].data[experienceIndex] as Experience)
+        .items,
+    ];
+    (
+      formState.sections[sectionIndex].data[experienceIndex] as Experience
+    ).items = [...existingItems, ""];
+  };
+
+  const mutateDeepValue = (
+    accessor: (string | number)[],
+    obj: object,
+    newValue: any
+  ) => {
     const newObj = { ...obj };
     if (accessor.length <= 1) {
       // @ts-ignore
@@ -147,25 +165,18 @@
     style="width: {sidebarWidth}px; left: {showSidebar ? 0 : -sidebarWidth}px;"
   >
     <Form class="pt-2">
-      <FormSection title="Profile">
-        <TextField
-          label="Name"
-          id="profile.name"
-          bind:value={formState.profile.name}
-        />
-        <TextField
-          label="Caption"
-          id="profile.caption"
+      <FormSection title="Profile" class="flex flex-col gap-1">
+        <TextInput placeholder="Name" bind:value={formState.profile.name} />
+        <TextInput
+          placeholder="Caption"
           bind:value={formState.profile.caption}
         />
-        <TextField
-          label="Location"
-          id="profile.location"
+        <TextInput
+          placeholder="Location"
           bind:value={formState.profile.location}
         />
-        <TextField
-          label="Description"
-          id="profile.description"
+        <TextInput
+          placeholder="Description"
           bind:value={formState.profile.description}
         />
       </FormSection>
@@ -189,7 +200,7 @@
             <div class="ml-2">
               <Button
                 type="danger"
-                class="h-[28px]"
+                class="h-[24px]"
                 on:click={() => {
                   formState.profile.links = [
                     ...formState.profile.links.slice(0, i),
@@ -213,13 +224,77 @@
       <FormSection title="Sections" class="">
         {#each formState.sections as section, i}
           <div class="flex flex-row bg-black/5 rounded p-2 mb-1">
-            <div class="flex flex-col gap-1 flex-grow">
+            <div class="flex flex-col gap-2 flex-grow">
               <TextInput
                 class="w-full"
                 placeholder="Section Title"
                 id={`formState.sections[${i}].title`}
-                bind:value={formState.sections[i].title}
+                bind:value={section.title}
               />
+              <div class="border-b my-1 border-black/10" />
+              {#if section.type === "experienceList"}
+                {#each section.data as experience, j}
+                  <div class="flex flex-col gap-1 p-3 bg-black/5 rounded-lg">
+                    <TextInput
+                      class="w-full"
+                      placeholder="Title"
+                      id={`formState.sections[${i}].data[${j}].title`}
+                      bind:value={experience.title}
+                    />
+                    <TextInput
+                      class="w-full"
+                      placeholder="Subtitle"
+                      id={`formState.sections[${i}].data[${j}].subtitle`}
+                      bind:value={experience.subtitle}
+                    />
+                    <div class="flex flex-row gap-1">
+                      <TextInput
+                        class="w-full"
+                        placeholder="Location"
+                        id={`formState.sections[${i}].data[${j}].location`}
+                        bind:value={experience.location}
+                      />
+                      <TextInput
+                        class="w-full"
+                        placeholder="Date"
+                        id={`formState.sections[${i}].data[${j}].date`}
+                        bind:value={experience.date}
+                      />
+                    </div>
+                    {#if experience.items.length <= 0}
+                      <div
+                        class="flex items-center justify-center text-[12px] py-1 text-gray-400"
+                      >
+                        No Bullets
+                      </div>
+                    {/if}
+                    {#each experience.items as bullet, k}
+                      <div class="pl-3 relative">
+                        <div
+                          class="absolute left-[-0px] top-[50%] translate-y-[-50%] h-1 w-1 bg-black/20 rounded-full"
+                        ></div>
+                        <TextInput
+                          class="w-full"
+                          placeholder="Bullet Point"
+                          id={`formState.sections[${i}].data[${j}].items[${k}]`}
+                          bind:value={bullet}
+                        />
+                      </div>
+                    {/each}
+                    <div class="flex justify-end">
+                      <Button
+                        type="secondary"
+                        on:click={() => addExperienceBulletItem(i, j)}
+                      >
+                        Add Bullet
+                      </Button>
+                    </div>
+                  </div>
+                {/each}
+                <Button type="secondary" on:click={() => addExperienceItem(i)}>
+                  Add Experience
+                </Button>
+              {/if}
             </div>
           </div>
         {/each}
