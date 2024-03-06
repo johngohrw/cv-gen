@@ -1,15 +1,18 @@
 <script lang="ts">
-  import { ArrowDownToDotIcon, Menu, MenuIcon, Plus } from "lucide-svelte";
+  import { Menu, Plus, Trash2 } from "lucide-svelte";
   import type {
-    ResumeData,
-    ValidSection,
     Experience,
-    Skill,
     Link,
+    ResumeData,
+    Skill,
+    ValidSection,
   } from "../../../types";
-  import Form from "../components/Form.svelte";
-  import TextField from "../components/TextField.svelte";
   import Button from "../components/Button.svelte";
+  import Form from "../components/Form.svelte";
+  import FormSection from "../components/FormSection.svelte";
+  import TextField from "../components/TextField.svelte";
+  import TextInput from "../components/TextInput.svelte";
+  import Dropdown from "../components/Dropdown.svelte";
 
   let experienceSectionTemplate: ValidSection = {
     title: "",
@@ -84,7 +87,7 @@
     sections: [],
   };
 
-  let sidebarWidth: number = 300;
+  let sidebarWidth: number = 360;
   let showSidebar: boolean = true;
 
   const handleFormChange = (accessorArray: string[], newValue: any) => {
@@ -98,6 +101,11 @@
   const addSection = (type: keyof typeof sectionTemplateMap) => {
     const template = sectionTemplateMap[type];
     formState = { ...formState, sections: [...formState.sections, template] };
+  };
+
+  const addContactLink = () => {
+    const template = { ...contactLinkTemplate };
+    formState.profile.links = [...formState.profile.links, template];
   };
 
   const mutateDeepValue = (accessor: string[], obj: object, newValue: any) => {
@@ -133,12 +141,13 @@
       </div>
     </div>
   </div>
-  <div class="relative pt-[40px]">
-    <div
-      class="flex flex-col gap-3 fixed bg-gray-300 h-full duration-200 p-2 overflow-auto"
-      style="width: {sidebarWidth}px; left: {showSidebar ? 0 : -sidebarWidth}px"
-    >
-      <Form>
+
+  <div
+    class="flex flex-col gap-3 fixed bg-gray-200 duration-200 px-2 overflow-auto pt-[40px] h-full"
+    style="width: {sidebarWidth}px; left: {showSidebar ? 0 : -sidebarWidth}px;"
+  >
+    <Form class="pt-2">
+      <FormSection title="Profile">
         <TextField
           label="Name"
           id="profile.name"
@@ -150,22 +159,87 @@
           bind:value={formState.profile.caption}
         />
         <TextField
+          label="Location"
+          id="profile.location"
+          bind:value={formState.profile.location}
+        />
+        <TextField
           label="Description"
           id="profile.description"
           bind:value={formState.profile.description}
         />
-        <div class="flex flex-row">
-          <Button type="secondary" on:click={() => addSection("experience")}>
+      </FormSection>
+      <FormSection title="Links" class="">
+        {#each formState.profile.links as link, i}
+          <div class="flex flex-row bg-black/5 rounded p-2 mb-1">
+            <div class="flex flex-col gap-1 flex-grow">
+              <TextInput
+                class="w-full"
+                placeholder="Label"
+                id={`formState.profile.links[${i}].label`}
+                bind:value={formState.profile.links[i].label}
+              />
+              <TextInput
+                class="w-full"
+                placeholder="URL"
+                id={`formState.profile.links[${i}].href`}
+                bind:value={formState.profile.links[i].href}
+              />
+            </div>
+            <div class="ml-2">
+              <Button
+                type="danger"
+                class="h-[28px]"
+                on:click={() => {
+                  formState.profile.links = [
+                    ...formState.profile.links.slice(0, i),
+                    ...formState.profile.links.slice(i + 1),
+                  ];
+                }}
+              >
+                <Trash2 size={16} />
+              </Button>
+            </div>
+          </div>
+        {/each}
+        <div class="flex justify-end">
+          <Button type="secondary" on:click={addContactLink}>
             <Plus size={18} class="mr-1" slot="icon" />
-            Add Section
+            Add Link
           </Button>
         </div>
-      </Form>
-    </div>
-    <div
-      class="duration-200"
-      style="margin-left: {showSidebar ? sidebarWidth : 0}px"
-    >
+      </FormSection>
+
+      <FormSection title="Sections" class="">
+        {#each formState.sections as section, i}
+          <div class="flex flex-row bg-black/5 rounded p-2 mb-1">
+            <div class="flex flex-col gap-1 flex-grow">
+              <TextInput
+                class="w-full"
+                placeholder="Section Title"
+                id={`formState.sections[${i}].title`}
+                bind:value={formState.sections[i].title}
+              />
+            </div>
+          </div>
+        {/each}
+        <div class="flex justify-end">
+          <Dropdown>
+            <button on:click={() => addSection("experience")}>
+              Experience Section
+            </button>
+            <button on:click={() => addSection("skills")}>Skills Section</button
+            >
+          </Dropdown>
+        </div>
+      </FormSection>
+    </Form>
+  </div>
+  <div
+    class="duration-200 h-full pt-[40px]"
+    style="margin-left: {showSidebar ? sidebarWidth : 0}px;"
+  >
+    <div class="p-8 flex flex-col items-center">
       <h1>Welcome to SvelteKit</h1>
       <p>formstate {JSON.stringify(formState)}</p>
       <p>{testname}</p>

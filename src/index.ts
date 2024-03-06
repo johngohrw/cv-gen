@@ -1,5 +1,5 @@
 import { themes } from "./themes";
-import { InputData } from "./types";
+import { InputData } from "../types";
 import {
   getSearchParams,
   initPrintButton,
