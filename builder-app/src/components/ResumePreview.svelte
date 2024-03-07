@@ -44,8 +44,7 @@
   }
 </script>
 
-<div class="p-8 flex flex-col items-center border h-full">
-  <!-- <p>formstate {JSON.stringify(resumeData)}</p> -->
+<div class="flex flex-col items-center px-8">
   <div class="page-frame" id="page" bind:this={pageElement} />
 </div>
 
@@ -62,6 +61,6 @@
     background: #f5f5f5;
     box-shadow: 3px 3px 13px -3px rgba(0, 0, 0, 0.2);
     flex-shrink: 0;
-    margin: 3rem 1rem;
+    margin: 2rem;
   }
 </style>

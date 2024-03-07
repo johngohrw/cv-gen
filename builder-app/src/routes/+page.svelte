@@ -17,7 +17,7 @@
   let sidebarWidth: number = 360;
   let showSidebar: boolean = true;
 
-  const sidebarStates = ["builder", "importJSON"] as const;
+  const sidebarStates = ["builder", "importJSON", "saveResume"] as const;
   let sidebarState: (typeof sidebarStates)[number] = sidebarStates[0];
 
   let currentLanguage: string | null = null;
@@ -44,25 +44,61 @@
     langCodeToAdd = "";
     langIsAdding = false;
   };
+
+  const handleLoadJSON = () => {
+    try {
+      JSON.parse(jsonToImport);
+      const imported = JSON.parse(jsonToImport);
+      formState = imported;
+      sidebarState = "builder";
+      const hasValidLanguage =
+        "languages" in formState && Object.keys(formState.languages).length > 0;
+      currentLanguage = hasValidLanguage
+        ? Object.keys(formState.languages)[0]
+        : "";
+    } catch {
+      alert("invalid");
+    }
+  };
 </script>
 
-<div class="h-full relative bg-gray-800">
+<div class="absolute inset-0 h-full bg-gray-800 overflow-auto">
   <div class="fixed top-0 inset-x-0 h-[40px] bg-gray-100 z-10">
-    <div class="h-full w-full relative flex flex-row items-center">
-      <button
-        class="flex items-center justify-center aspect-square h-[40px] ml-2"
-        on:click={() => (showSidebar = !showSidebar)}
-        ><Menu color="#666" /></button
-      >
-      <div class="ml-2">
-        <Button type="secondary" on:click={() => (sidebarState = "importJSON")}
-          >Import from JSON</Button
+    <div
+      class="h-full w-full relative flex flex-row items-center justify-between"
+    >
+      <div class="flex flex-row items-center">
+        <button
+          class="flex items-center justify-center aspect-square h-[40px] ml-2"
+          on:click={() => (showSidebar = !showSidebar)}
+          ><Menu color="#666" /></button
         >
+        <div class="ml-2">
+          <Button
+            type="secondary"
+            on:click={() => {
+              sidebarState = "importJSON";
+              showSidebar = true;
+            }}>Import from JSON</Button
+          >
+        </div>
       </div>
       <div
         class="text-gray-500 text-[11px] font-semibold font absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]"
       >
         RESUME BUILDER
+      </div>
+      <div class="mr-2">
+        <Button
+          disabled={Object.keys(formState.languages).length <= 0}
+          type="default"
+          on:click={() => {
+            sidebarState = "saveResume";
+            showSidebar = true;
+          }}
+        >
+          Save Resume
+        </Button>
       </div>
     </div>
   </div>
@@ -159,9 +195,21 @@
           This will overwrite all existing data, make sure you have saved your
           current resume.
         </p>
-        <Button class="mb-2 w-full" on:click={() => (sidebarState = "builder")}
-          >Back</Button
-        >
+        <Button class="mb-2 w-full" on:click={handleLoadJSON}>Load JSON</Button>
+      </div>
+    {:else if sidebarState === "saveResume"}
+      <div class="pt-2 text-sm">
+        <p class="">The code below represents the data to your Resume.</p>
+        <p class="mb-2">Please download it and store it somewhere safe.</p>
+        <textarea
+          class="w-full h-[200px] resize-none font-mono text-[11px] p-2"
+          value={JSON.stringify(formState)}
+          readonly
+        />
+        <div class="flex flex-row gap-1">
+          <Button>Copy to Clipboard</Button>
+          <Button>Download as JSON</Button>
+        </div>
       </div>
     {/if}
   </div>
