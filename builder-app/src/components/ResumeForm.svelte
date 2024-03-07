@@ -189,7 +189,7 @@
                 </div>
                 {#if experience.items.length <= 0}
                   <div
-                    class="flex items-center justify-center text-[12px] py-1 text-gray-400"
+                    class="flex items-center justify-center text-[12px] py-2 text-gray-400"
                   >
                     No Bullets
                   </div>
@@ -197,12 +197,11 @@
                 {#each experience.items as bullet, k}
                   <div class="pl-3 relative">
                     <div
-                      class="absolute left-[-0px] top-[50%] translate-y-[-50%] h-1 w-1 bg-black/20 rounded-full"
+                      class="absolute left-[2px] top-[9px] h-1 w-1 bg-black/20 rounded-full"
                     ></div>
-                    <TextInput
-                      class="w-full"
-                      placeholder="Bullet Point"
-                      id={`formState.sections[${i}].data[${j}].items[${k}]`}
+                    <textarea
+                      class="w-full text-xs rounded-[2px] mb-[-6px] p-1"
+                      placeholder="Bullet text"
                       bind:value={bullet}
                     />
                   </div>

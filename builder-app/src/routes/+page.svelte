@@ -109,14 +109,18 @@
   >
     {#if sidebarState === "builder"}
       {#if Object.keys(formState.languages).length <= 0}
-        <div class="pt-10 flex flex-col items-center">
-          <div class="text-sm mb-4">Let's get started!</div>
-          <div class="text-sm mb-4">
+        <div class="pt-16 flex flex-col items-center">
+          <div class="font-bold mb-8 text-4xl text-gray-700">cv-gen</div>
+          <div class="text-sm mb-1">Let's get started!</div>
+          <div class="text-sm mb-1">
             What's the language code for your resume?
+          </div>
+          <div class="text-[12px] text-gray-500 mb-4">
+            (en, de, jp, cn, ru, fr, ...)
           </div>
           <div class="flex flex-row flex-nowrap gap-1">
             <TextInput
-              class="mr-1 w-[40px]"
+              class="mr-1 w-[40px] text-xs"
               placeholder="en"
               bind:value={langCodeToAdd}
             />
@@ -125,9 +129,20 @@
                 langCodeToAdd in formState.languages}
               on:click={handleAddLanguage}
             >
-              Add
+              Next
             </Button>
           </div>
+          <div class="w-full border-b border-gray-300 my-12"></div>
+          <div class="text-sm mb-4">I have an existing resume!</div>
+          <Button
+            type="secondary"
+            on:click={() => {
+              sidebarState = "importJSON";
+              showSidebar = true;
+            }}
+          >
+            Import from JSON
+          </Button>
         </div>
       {:else}
         <Form class="pt-2">
