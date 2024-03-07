@@ -1,10 +1,19 @@
 <script lang="ts">
-  import { Plus } from "lucide-svelte";
   import Button from "./Button.svelte";
 
   let showDropdown: boolean = false;
+  type DirectionX = "left" | "right";
+  type DirectionY = "top" | "bottom";
+  export let positionX: DirectionX = "right";
+  export let positionY: DirectionY = "bottom";
 
-  const handleDropdownFocusLoss = ({ relatedTarget, currentTarget }) => {
+  const handleDropdownFocusLoss = ({
+    relatedTarget,
+    currentTarget,
+  }: {
+    relatedTarget: any;
+    currentTarget: any;
+  }) => {
     if (
       relatedTarget instanceof HTMLElement &&
       currentTarget.contains(relatedTarget)
@@ -21,13 +30,14 @@
   on:focusout={handleDropdownFocusLoss}
 >
   <Button type="secondary" on:click={() => (showDropdown = true)}>
-    <Plus size={18} class="mr-1" slot="icon" />
-    Add Section
+    <slot name="icon" />
+    <slot name="label" />
   </Button>
   {#if showDropdown}
     <button
       on:click={() => (showDropdown = false)}
-      class="dropdown-list absolute top-[100%] right-0 w-fit flex flex-col items-start py-1 rounded shadow-lg bg-gray-100 text-gray-900 text-[12px] whitespace-nowrap"
+      class="dropdown-list absolute w-fit flex flex-col items-start py-1 rounded shadow-lg bg-gray-100 text-gray-900 text-[12px] whitespace-nowrap"
+      style={`${positionX}: 0; ${positionY === "top" && "bottom: 100%;"} ${positionY === "bottom" && "top: 100%;"}`}
     >
       <slot />
     </button>

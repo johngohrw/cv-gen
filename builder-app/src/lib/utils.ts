@@ -60,3 +60,24 @@ export const flyAndScale = (
         easing: cubicOut
     };
 };
+
+const mutateDeepValue = (
+    accessor: (string | number)[],
+    obj: object,
+    newValue: any
+  ) => {
+    const newObj = { ...obj };
+    if (accessor.length <= 1) {
+      // @ts-ignore
+      newObj[accessor[0]] = newValue;
+      return newObj;
+    }
+    // @ts-ignore
+    newObj[accessor[0]] = mutateDeepValue(
+      accessor.slice(1),
+      // @ts-ignore
+      newObj[accessor[0]],
+      newValue
+    );
+    return newObj;
+  };
