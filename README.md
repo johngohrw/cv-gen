@@ -33,6 +33,7 @@ To be expanded.
 
 ## To-do
 
+- [ ] Combine viewer app and builder app into one unified Svelte app.
 - [ ] Contact icon selector
 - [x] Dynamically populate resume with externally-hosted JSON
 - [x] Side-by-side resume editor with JSON export
