@@ -63,7 +63,7 @@
 </script>
 
 <div class="absolute inset-0 h-full bg-gray-800 overflow-auto">
-  <div class="fixed top-0 inset-x-0 h-[40px] bg-gray-100 z-10">
+  <div class="fixed top-0 inset-x-0 h-[40px] bg-gray-100 z-10 shadow-md">
     <div
       class="h-full w-full relative flex flex-row items-center justify-between"
     >
@@ -133,7 +133,9 @@
             </Button>
           </div>
           <div class="w-full border-b border-gray-300 my-12"></div>
-          <div class="text-sm mb-4">I have an existing resume!</div>
+          <div class="text-sm mb-4 text-gray-500">
+            I have an existing resume
+          </div>
           <Button
             type="secondary"
             on:click={() => {
@@ -146,6 +148,9 @@
         </div>
       {:else}
         <Form class="pt-2">
+          <FormSection title="Themes">
+            <p class="text-sm text-gray-400">Coming soon</p>
+          </FormSection>
           <FormSection title="Languages">
             <div class="flex flex-row gap-1 flex-wrap">
               {#each Object.keys(formState.languages) as lang}
