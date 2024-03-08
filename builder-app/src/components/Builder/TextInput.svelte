@@ -16,6 +16,8 @@
 <style>
   .form-field-text {
     padding: 0.2rem 0.5rem;
-    border-radius: 2px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.1) inset;
+    border: 1px solid #dcdcdc;
   }
 </style>

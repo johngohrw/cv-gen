@@ -38,13 +38,25 @@
   button.secondary {
     background: rgba(0, 0, 0, 0.1);
     color: #222;
+
+    &:disabled {
+      opacity: 0.5;
+    }
   }
   button.success {
     background: #14a014;
     color: #f7f7f7;
+
+    &:disabled {
+      opacity: 0.5;
+    }
   }
   button.danger {
     background: #c31212;
     color: #f7f7f7;
+
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 </style>

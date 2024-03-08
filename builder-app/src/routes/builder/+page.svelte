@@ -226,8 +226,13 @@
         <Button class="mb-2 w-full" on:click={handleLoadJSON}>Load JSON</Button>
       </div>
     {:else if sidebarState === "saveResume"}
-      <div class="pt-2 text-sm">
-        <p class="">The code below represents the data to your Resume.</p>
+      <div class="pt-2 text-xs">
+        <Button
+          type="secondary"
+          class="mb-2"
+          on:click={() => (sidebarState = "builder")}>Back</Button
+        >
+        <p class="mb-2">The code below represents the data to your Resume.</p>
         <p class="mb-2">Please download it and store it somewhere safe.</p>
         <textarea
           class="w-full h-[200px] resize-none font-mono text-[11px] p-2"
@@ -235,8 +240,8 @@
           readonly
         />
         <div class="flex flex-row gap-1">
-          <Button>Copy to Clipboard</Button>
-          <Button>Download as JSON</Button>
+          <Button type="secondary">Copy to Clipboard</Button>
+          <Button type="secondary">Download as JSON</Button>
         </div>
       </div>
     {/if}
