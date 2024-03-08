@@ -1,247 +1,87 @@
 <script lang="ts">
-  import { Menu } from "lucide-svelte";
-  import type { InputData } from "../../../types";
-  import Button from "../components/Button.svelte";
-  import Form from "../components/Form.svelte";
-  import ResumeForm from "../components/ResumeForm.svelte";
-  import TextInput from "../components/TextInput.svelte";
-  import FormSection from "../components/FormSection.svelte";
+  import { onMount } from "svelte";
+  import { getSearchParams } from "@/url";
+  import type { InputData, ResumeData } from "../types";
   import ResumePreview from "../components/ResumePreview.svelte";
+  import Message from "../components/Message.svelte";
+  import Welcome from "../components/Welcome.svelte";
+  import FadeIn from "../components/FadeIn.svelte";
 
-  let formState: InputData = {
-    defaultLanguage: "",
-    theme: "default",
-    languages: {},
+  let inputData: InputData;
+  let resumeData: ResumeData;
+  let isLoadingResume: boolean = true;
+  let message: string = "Loading...";
+  $: messageIsShowing = !resumeData && isLoadingResume;
+
+  const setMessage = (msg: string) => {
+    message = msg;
   };
-  let jsonToImport: string = "";
-  let sidebarWidth: number = 360;
-  let showSidebar: boolean = true;
 
-  const sidebarStates = ["builder", "importJSON", "saveResume"] as const;
-  let sidebarState: (typeof sidebarStates)[number] = sidebarStates[0];
+  onMount(() => {
+    setMessage("Checking data source...");
+    const searchParams = getSearchParams();
+    let dataSourceURL = "data" in searchParams ? searchParams.data : null;
+    // let dataSourceURL = null;
 
-  let currentLanguage: string | null = null;
-  let langIsAdding: boolean = false;
-  let langCodeToAdd: string = "en";
-
-  const handleAddLanguage = () => {
-    currentLanguage = langCodeToAdd;
-    if (Object.keys(formState.languages).length <= 0) {
-      formState.defaultLanguage = langCodeToAdd;
+    if (dataSourceURL) {
+      loadResume(dataSourceURL);
+    } else {
+      setMessage("No valid data source found.");
+      setTimeout(() => {
+        isLoadingResume = false;
+      }, 100);
     }
-    const updatedLanguages = { ...formState.languages };
-    updatedLanguages[langCodeToAdd] = {
-      profile: {
-        name: "",
-        caption: "",
-        location: "",
-        description: "",
-        links: [],
-      },
-      sections: [],
-    };
-    formState.languages = updatedLanguages;
-    langCodeToAdd = "";
-    langIsAdding = false;
+  });
+
+  const loadResume = async (url: string) => {
+    setMessage("Fetching resume data from URL...");
+    const data = (await (await fetch(url)).json()) ?? null;
+    setMessage("Checking fetched data...");
+    inputData = data;
   };
 
-  const handleLoadJSON = () => {
-    try {
-      JSON.parse(jsonToImport);
-      const imported = JSON.parse(jsonToImport);
-      formState = imported;
-      sidebarState = "builder";
-      const hasValidLanguage =
-        "languages" in formState && Object.keys(formState.languages).length > 0;
-      currentLanguage = hasValidLanguage
-        ? Object.keys(formState.languages)[0]
-        : "";
-    } catch {
-      alert("invalid");
+  $: if (inputData) {
+    setMessage("Preparing to display resume...");
+    const { defaultLanguage, languages } = inputData ?? {};
+    const langKeys = languages ? Object.keys(languages) : [];
+    const hasDefaultLanguage = defaultLanguage && defaultLanguage in languages;
+
+    if (langKeys.length > 0) {
+      resumeData =
+        languages[hasDefaultLanguage ? defaultLanguage : langKeys[0]];
+    } else {
+      setMessage(
+        "Can't find any languages in your resume, it seems to be empty!"
+      );
     }
-  };
+  }
 </script>
 
-<div class="absolute inset-0 h-full bg-gray-800 overflow-auto">
-  <div class="fixed top-0 inset-x-0 h-[40px] bg-gray-100 z-10 shadow-md">
-    <div
-      class="h-full w-full relative flex flex-row items-center justify-between"
-    >
-      <div class="flex flex-row items-center">
-        <button
-          class="flex items-center justify-center aspect-square h-[40px] ml-2"
-          on:click={() => (showSidebar = !showSidebar)}
-          ><Menu color="#666" /></button
-        >
-        <div class="ml-2">
-          <Button
-            type="secondary"
-            on:click={() => {
-              sidebarState = "importJSON";
-              showSidebar = true;
-            }}>Import from JSON</Button
-          >
-        </div>
-      </div>
-      <div
-        class="text-gray-500 text-[11px] font-semibold font absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]"
-      >
-        RESUME BUILDER
-      </div>
-      <div class="mr-2">
-        <Button
-          disabled={Object.keys(formState.languages).length <= 0}
-          type="default"
-          on:click={() => {
-            sidebarState = "saveResume";
-            showSidebar = true;
-          }}
-        >
-          Save Resume
-        </Button>
-      </div>
-    </div>
-  </div>
-
-  <div
-    class="flex flex-col gap-3 fixed bg-gray-200 duration-200 px-2 overflow-auto pt-[40px] h-full"
-    style="width: {sidebarWidth}px; left: {showSidebar ? 0 : -sidebarWidth}px;"
+<div class="h-full overflow-auto">
+  {#if resumeData}
+    <ResumePreview {resumeData} />
+  {:else if !isLoadingResume}
+    <FadeIn class="h-full">
+      <Welcome />
+    </FadeIn>
+  {/if}
+  <Message
+    style={`
+        opacity: ${messageIsShowing ? 1 : 0}; 
+        transition-delay: 200ms; 
+        transition-duration: 200ms; 
+        pointer-events: none
+    `}
   >
-    {#if sidebarState === "builder"}
-      {#if Object.keys(formState.languages).length <= 0}
-        <div class="pt-16 flex flex-col items-center">
-          <div class="font-bold mb-8 text-4xl text-gray-700">cv-gen</div>
-          <div class="text-sm mb-1">Let's get started!</div>
-          <div class="text-sm mb-1">
-            What's the language code for your resume?
-          </div>
-          <div class="text-[12px] text-gray-500 mb-4">
-            (en, de, jp, cn, ru, fr, ...)
-          </div>
-          <div class="flex flex-row flex-nowrap gap-1">
-            <TextInput
-              class="mr-1 w-[40px] text-xs"
-              placeholder="en"
-              bind:value={langCodeToAdd}
-            />
-            <Button
-              disabled={langCodeToAdd.length <= 0 ||
-                langCodeToAdd in formState.languages}
-              on:click={handleAddLanguage}
-            >
-              Next
-            </Button>
-          </div>
-          <div class="w-full border-b border-gray-300 my-12"></div>
-          <div class="text-sm mb-4 text-gray-500">
-            I have an existing resume
-          </div>
-          <Button
-            type="secondary"
-            on:click={() => {
-              sidebarState = "importJSON";
-              showSidebar = true;
-            }}
-          >
-            Import from JSON
-          </Button>
-        </div>
-      {:else}
-        <Form class="pt-2">
-          <FormSection title="Themes">
-            <p class="text-sm text-gray-400">Coming soon</p>
-          </FormSection>
-          <FormSection title="Languages">
-            <div class="flex flex-row gap-1 flex-wrap">
-              {#each Object.keys(formState.languages) as lang}
-                <Button
-                  on:click={() => (currentLanguage = lang)}
-                  type={currentLanguage === lang ? "default" : "secondary"}
-                >
-                  {lang}
-                </Button>
-              {/each}
-              {#if langIsAdding}
-                <div class="flex flex-row flex-nowrap">
-                  <TextInput
-                    class="mr-1 w-[40px]"
-                    placeholder="en"
-                    bind:value={langCodeToAdd}
-                  />
-                  <Button
-                    disabled={langCodeToAdd.length <= 0 ||
-                      langCodeToAdd in formState.languages}
-                    on:click={handleAddLanguage}
-                  >
-                    Add
-                  </Button>
-                  <Button
-                    type="secondary"
-                    class="ml-2"
-                    on:click={() => {
-                      langIsAdding = false;
-                      langCodeToAdd = "";
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              {:else}
-                <Button on:click={() => (langIsAdding = true)} type="secondary">
-                  +
-                </Button>
-              {/if}
-            </div>
-          </FormSection>
-        </Form>
-        {#if currentLanguage !== null}
-          <ResumeForm bind:formState={formState.languages[currentLanguage]} />
-        {/if}
-      {/if}
-    {:else if sidebarState === "importJSON"}
-      <div class="pt-2">
-        <Button
-          type="secondary"
-          class="mb-2"
-          on:click={() => (sidebarState = "builder")}>Back</Button
-        >
-        <p class="text-xs mb-2">Paste your resume data in JSON format here</p>
-        <textarea
-          placeholder={`{"defaultLanguage":"en","theme":"default","languages":{"en": { ... }}}`}
-          class="w-full h-[300px] resize-none font-mono text-[11px] p-2"
-          bind:value={jsonToImport}
-        />
-        <p class="text-xs mb-2">
-          This will overwrite all existing data, make sure you have saved your
-          current resume.
-        </p>
-        <Button class="mb-2 w-full" on:click={handleLoadJSON}>Load JSON</Button>
-      </div>
-    {:else if sidebarState === "saveResume"}
-      <div class="pt-2 text-sm">
-        <p class="">The code below represents the data to your Resume.</p>
-        <p class="mb-2">Please download it and store it somewhere safe.</p>
-        <textarea
-          class="w-full h-[200px] resize-none font-mono text-[11px] p-2"
-          value={JSON.stringify(formState)}
-          readonly
-        />
-        <div class="flex flex-row gap-1">
-          <Button>Copy to Clipboard</Button>
-          <Button>Download as JSON</Button>
-        </div>
-      </div>
-    {/if}
-  </div>
-  <div
-    class="duration-200 h-full pt-[40px]"
-    style="margin-left: {showSidebar ? sidebarWidth : 0}px;"
-  >
-    {#if currentLanguage && currentLanguage in formState.languages}
-      <ResumePreview resumeData={formState.languages[currentLanguage]} />
-    {/if}
-  </div>
+    {message}
+  </Message>
 </div>
 
 <style>
+  :global(:root) {
+    --background-color: #444;
+  }
+  :global(body) {
+    background: var(--background-color);
+  }
 </style>

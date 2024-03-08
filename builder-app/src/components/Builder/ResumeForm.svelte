@@ -8,7 +8,7 @@
     type Skill,
     type ValidSection,
     type Link,
-  } from "../../../types";
+  } from "../../../../types";
   import Button from "./Button.svelte";
   import Dropdown from "./Dropdown.svelte";
   import { Plus, Trash2 } from "lucide-svelte";

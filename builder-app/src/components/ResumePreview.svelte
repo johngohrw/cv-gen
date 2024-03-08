@@ -1,13 +1,13 @@
 <script lang="ts">
   import Handlebars from "handlebars";
-  import { themes } from "../../../src/themes/";
-  import type { ResumeData } from "../../../types";
-  import { IDSchema } from "../../../src/themes/schema";
+  import type { ResumeData } from "../types";
+  import { IDSchema } from "../themes/schema";
+  import { themes } from "../themes";
   import {
     appendDOMInnerHTML,
     sectionMap,
     setDOMInnerHTML,
-  } from "../../../src/utils";
+  } from "../themes/utils";
 
   let themeName: keyof typeof themes = "default";
   export { themeName as theme };
@@ -17,7 +17,7 @@
   export let resumeData: ResumeData;
 
   $: if (themeName) {
-    import(`../../../src/themes/default/styles/index.css`);
+    import(`../themes/${themeName}/styles/index.css`);
   }
 
   $: if (pageElement && theme && resumeData) {

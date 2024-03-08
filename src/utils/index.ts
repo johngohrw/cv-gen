@@ -1,5 +1,10 @@
 import Handlebars from "handlebars";
-import { Profile, Theme, ValidSection, ValidSectionDataTypeNames } from "../../types";
+import {
+  Profile,
+  Theme,
+  ValidSection,
+  ValidSectionDataTypeNames,
+} from "../../types";
 import { IDSchema } from "../themes/schema";
 
 export function getSearchParams() {
@@ -84,12 +89,13 @@ export const sectionMap: { [key: string]: keyof Theme } = {
 };
 
 export const loadLanguageLinks = (langCodes: string[]) => {
-  langCodes.forEach((langCode) => {    
+  langCodes.forEach((langCode) => {
     appendDOMInnerHTML(
       IDSchema.languages.container,
-      `<a href="${
-        window.location.origin
-      }?${new URLSearchParams({...getSearchParams(), lang: langCode}).toString()}">${langCode.toUpperCase()}</a>`
+      `<a href="${window.location.origin}?${new URLSearchParams({
+        ...getSearchParams(),
+        lang: langCode,
+      }).toString()}">${langCode.toUpperCase()}</a>`
     );
   });
 };
