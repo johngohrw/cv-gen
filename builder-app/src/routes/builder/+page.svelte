@@ -45,10 +45,10 @@
     langIsAdding = false;
   };
 
-  const handleLoadJSON = () => {
+  const handleLoadJSON = async () => {
+    let imported;
     try {
-      JSON.parse(jsonToImport);
-      const imported = JSON.parse(jsonToImport);
+      imported = JSON.parse(jsonToImport);
       formState = imported;
       sidebarState = "builder";
       const hasValidLanguage =
@@ -56,8 +56,8 @@
       currentLanguage = hasValidLanguage
         ? Object.keys(formState.languages)[0]
         : "";
-    } catch {
-      alert("invalid");
+    } catch (e) {
+      // handle error
     }
   };
 </script>

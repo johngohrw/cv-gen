@@ -6,6 +6,7 @@
   import Message from "../components/Message.svelte";
   import Welcome from "../components/Welcome.svelte";
   import FadeIn from "../components/FadeIn.svelte";
+  import LandingLayout from "../components/LandingLayout.svelte";
 
   let inputData: InputData;
   let resumeData: ResumeData;
@@ -20,8 +21,7 @@
   onMount(() => {
     setMessage("Checking data source...");
     const searchParams = getSearchParams();
-    let dataSourceURL = "data" in searchParams ? searchParams.data : null;
-    // let dataSourceURL = null;
+    let { data: dataSourceURL } = searchParams ?? {};
 
     if (dataSourceURL) {
       loadResume(dataSourceURL);
@@ -62,7 +62,9 @@
     <ResumePreview {resumeData} />
   {:else if !isLoadingResume}
     <FadeIn class="h-full">
-      <Welcome />
+      <LandingLayout>
+        <Welcome />
+      </LandingLayout>
     </FadeIn>
   {/if}
   <Message
