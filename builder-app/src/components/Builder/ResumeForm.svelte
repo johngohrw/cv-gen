@@ -7,16 +7,16 @@
     type Skill,
     type ValidSection,
   } from "../../../../types";
+  import { themes } from "../../themes";
+  import type { Theme } from "../../types";
   import Button from "./Button.svelte";
   import Dropdown from "./Dropdown.svelte";
+  import ListDropdownOptions from "./ListDropdownOptions.svelte";
   import EllipsisVertical from "./EllipsisVertical.svelte";
   import Form from "./Form.svelte";
   import FormSection from "./FormSection.svelte";
-  import TextInput from "./TextInput.svelte";
   import SelectInput from "./SelectInput.svelte";
-  import type { Theme } from "../../types";
-  import theme from "../../themes/default";
-  import { themes } from "../../themes";
+  import TextInput from "./TextInput.svelte";
 
   export let formState: ResumeData;
 
@@ -113,7 +113,9 @@
   </FormSection>
   <FormSection title="Links" class="">
     {#each formState.profile.links as link, i}
-      <div class="flex flex-row bg-black/5 rounded p-2 mb-2">
+      <div
+        class="flex flex-row p-2 mb-2 bg-white/30 rounded border border-gray-300 shadow"
+      >
         <div class="flex flex-col gap-1 flex-grow">
           <div class="flex flex-row flex-nowrap gap-1">
             <TextInput
@@ -139,26 +141,11 @@
             bind:value={formState.profile.links[i].href}
           />
         </div>
-        <Dropdown
-          buttonProps={{
-            type: "naked",
-            size: "naked",
-            class: "px-0.5 ml-0.5",
-          }}
-          positionX="right"
-          positionY="bottom"
-        >
-          <EllipsisVertical slot="icon" width="14" color="#555" />
-          <button
-            on:click={() => {
-              formState.profile.links = [...formState.profile.links].filter(
-                (o) => o !== link
-              );
-            }}
-          >
-            Delete
-          </button>
-        </Dropdown>
+        <ListDropdownOptions
+          bind:list={formState.profile.links}
+          item={link}
+          index={i}
+        />
       </div>
     {/each}
     <div class="flex justify-end">
@@ -172,7 +159,7 @@
   <FormSection title="Sections" class="">
     {#each formState.sections as section, i}
       <div
-        class="flex flex-row bg-white/30 rounded p-2 mb-4 border border-gray-300 shadow"
+        class="flex flex-row bg-white/30 rounded border border-gray-300 shadow p-2 mb-4"
       >
         <div class="flex flex-col gap-2 flex-grow">
           <div class="flex flex-row flex-nowrap">
@@ -182,26 +169,11 @@
               id={`formState.sections[${i}].title`}
               bind:value={section.title}
             />
-            <Dropdown
-              buttonProps={{
-                type: "naked",
-                size: "naked",
-                class: "px-0.5 ml-0.5",
-              }}
-              positionX="right"
-              positionY="bottom"
-            >
-              <EllipsisVertical slot="icon" width="14" color="#555" />
-              <button
-                on:click={() => {
-                  formState.sections = [...formState.sections].filter(
-                    (o) => o !== section
-                  );
-                }}
-              >
-                Delete
-              </button>
-            </Dropdown>
+            <ListDropdownOptions
+              bind:list={formState.sections}
+              item={section}
+              index={i}
+            />
           </div>
 
           {#if section.type === "experienceList"}
@@ -215,27 +187,11 @@
                     id={`formState.sections[${i}].data[${j}].title`}
                     bind:value={experience.title}
                   />
-                  <Dropdown
-                    buttonProps={{
-                      type: "naked",
-                      size: "naked",
-                      class: "px-0.5 ml-0.5",
-                    }}
-                    positionX="right"
-                    positionY="bottom"
-                  >
-                    <EllipsisVertical slot="icon" width="14" color="#555" />
-                    <button
-                      on:click={() => {
-                        // @ts-ignore
-                        section.data = [...section.data].filter(
-                          (o) => o !== experience
-                        );
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </Dropdown>
+                  <ListDropdownOptions
+                    bind:list={section.data}
+                    item={experience}
+                    index={j}
+                  />
                 </div>
                 <TextInput
                   class="w-full"
@@ -272,26 +228,11 @@
                       placeholder="Bullet text"
                       bind:value={bullet}
                     />
-                    <Dropdown
-                      buttonProps={{
-                        type: "naked",
-                        size: "naked",
-                        class: "px-0.5 ml-0.5",
-                      }}
-                      positionX="right"
-                      positionY="bottom"
-                    >
-                      <EllipsisVertical slot="icon" width="14" color="#555" />
-                      <button
-                        on:click={() => {
-                          experience.items = [...experience.items].filter(
-                            (o) => o !== bullet
-                          );
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </Dropdown>
+                    <ListDropdownOptions
+                      bind:list={experience.items}
+                      item={bullet}
+                      index={k}
+                    />
                   </div>
                 {/each}
                 <div class="flex justify-end">
@@ -321,7 +262,7 @@
               />
             </div>
             <div class="border-b my-1 border-black/10" />
-            {#each section.data as skill}
+            {#each section.data as skill, k}
               <div class="relative flex flex-row flex-nowrap">
                 <TextInput
                   class="w-full"
@@ -340,27 +281,11 @@
                   min={1}
                   max={5}
                 />
-                <Dropdown
-                  buttonProps={{
-                    type: "naked",
-                    size: "naked",
-                    class: "px-0.5 ml-0.5",
-                  }}
-                  positionX="right"
-                  positionY="bottom"
-                >
-                  <EllipsisVertical slot="icon" width="14" color="#555" />
-                  <button
-                    on:click={() => {
-                      // @ts-ignore
-                      section.data = [...section.data].filter(
-                        (o) => o !== skill
-                      );
-                    }}
-                  >
-                    Delete
-                  </button>
-                </Dropdown>
+                <ListDropdownOptions
+                  bind:list={section.data}
+                  item={skill}
+                  index={k}
+                />
               </div>
             {/each}
             <Button type="secondary" on:click={() => addSkillItem(i)}>
@@ -370,7 +295,7 @@
         </div>
       </div>
     {/each}
-    <div class="flex justify-end">
+    <div class="flex justify-end pb-[250px]">
       <Dropdown>
         <Plus size={18} class="mr-1" slot="icon" />
         <span slot="label">Add Section</span>

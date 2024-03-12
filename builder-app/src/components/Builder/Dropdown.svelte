@@ -58,8 +58,12 @@
     width: 100%;
     text-align: left;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    &:disabled {
+      opacity: 0.3;
     }
   }
 

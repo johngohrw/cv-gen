@@ -277,13 +277,15 @@
   </div>
   <div
     id="resume-builder-preview-container"
-    class="duration-200 h-full pt-[40px]"
+    class="duration-200 h-full pt-[40px] relative"
     style="margin-left: {showSidebar ? sidebarWidth : 0}px;"
   >
     {#if currentLanguage && currentLanguage in formState.languages}
       <ResumePreview
-        resumeData={formState.languages[currentLanguage]}
+        inputData={formState}
         theme="default"
+        hideLanguages
+        {currentLanguage}
       />
     {/if}
   </div>

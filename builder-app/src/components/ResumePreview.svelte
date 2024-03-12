@@ -14,10 +14,12 @@
   export { themeName as theme };
   let theme = themes[themeName];
   let pageElement: HTMLDivElement;
+  export let hideLanguages: boolean = false;
+  export let hidePrint: boolean = false;
 
   export let inputData: InputData;
 
-  let currentLanguage = "";
+  export let currentLanguage = "";
 
   $: if (inputData && inputData.defaultLanguage && !currentLanguage) {
     currentLanguage = inputData.defaultLanguage;
@@ -55,20 +57,23 @@
 </script>
 
 <div class="flex flex-col items-center px-8" id="page-container">
-  <div id="languages-container" class="fixed bottom-[24px] left-[24px]">
-    <div class="flex flex-row flex-nowrap gap-1">
-      {#each Object.keys(inputData.languages) as language}
-        <Button
-          type={currentLanguage === language ? "default" : "naked"}
-          class={`px-1.5 py-0.5 text-[13px] ${currentLanguage === language ? "" : "bg-gray-200/80 opacity-50 hover:opacity-100"}`}
-          on:click={() => (currentLanguage = language)}
-          size="naked"
-        >
-          {language}
-        </Button>
-      {/each}
+  {#if !hideLanguages}
+    <div id="languages-container" class="fixed bottom-[24px] left-[24px]">
+      <div class="flex flex-row flex-nowrap gap-1">
+        {#each Object.keys(inputData.languages) as language}
+          <Button
+            type={currentLanguage === language ? "default" : "naked"}
+            class={`px-1.5 py-0.5 text-[13px] ${currentLanguage === language ? "" : "bg-gray-200/80 opacity-50 hover:opacity-100"}`}
+            on:click={() => (currentLanguage = language)}
+            size="naked"
+          >
+            {language}
+          </Button>
+        {/each}
+      </div>
     </div>
-  </div>
+  {/if}
+
   <div class="page-frame" id="page" bind:this={pageElement} />
   <div id="credits-container" class="mb-4">
     <div class="text-[12px] text-white/70 opacity-70">
@@ -78,13 +83,15 @@
       >
     </div>
   </div>
-  <Button
-    type="default"
-    class="fixed bottom-[24px] right-[24px] !text-[16px] !px-5 !py-2 !rounded-full font-medium"
-    on:click={() => print()}
-  >
-    Print
-  </Button>
+  {#if !hidePrint}
+    <Button
+      type="default"
+      class="fixed bottom-[24px] right-[24px] !text-[16px] !px-5 !py-2 !rounded-full font-medium"
+      on:click={() => print()}
+    >
+      Print
+    </Button>
+  {/if}
 </div>
 
 <style>
