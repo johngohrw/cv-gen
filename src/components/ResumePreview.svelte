@@ -89,7 +89,7 @@
       made with <a
         class="text-blue-300"
         target="_blank"
-        href="https://cv-gen-app.netlify.app">cv-gen</a
+        href="https://github.com/johngohrw/cv-gen">cv-gen</a
       >
     </div>
   </div>
