@@ -7,10 +7,9 @@
   import ResumePreview from "../components/ResumePreview.svelte";
   import Welcome from "../components/Welcome.svelte";
   import type { InputData, ResumeData } from "../types";
+  import { env } from "$env/dynamic/public";
 
-  import { PUBLIC_PRELOADED_RESUME_DATA_URL } from "$env/static/public";
-
-  let preloadedURL = PUBLIC_PRELOADED_RESUME_DATA_URL ?? null;
+  let { PUBLIC_PRELOADED_RESUME_DATA_URL: preloadedURL } = env ?? {};
   let inputData: InputData;
   let resumeData: ResumeData;
   let isLoadingResume: boolean = true;
