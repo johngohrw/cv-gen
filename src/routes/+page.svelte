@@ -8,6 +8,9 @@
   import Welcome from "../components/Welcome.svelte";
   import type { InputData, ResumeData } from "../types";
 
+  import { PUBLIC_PRELOADED_RESUME_DATA_URL } from "$env/static/public";
+
+  let preloadedURL = PUBLIC_PRELOADED_RESUME_DATA_URL ?? null;
   let inputData: InputData;
   let resumeData: ResumeData;
   let isLoadingResume: boolean = true;
@@ -20,9 +23,10 @@
 
   onMount(() => {
     setMessage("Checking data source...");
+    let dataSourceURL;
     const searchParams = getSearchParams();
-    let { data: dataSourceURL } = searchParams ?? {};
-
+    dataSourceURL =
+      preloadedURL ?? ("data" in searchParams ? searchParams.data : null);
     if (dataSourceURL) {
       loadResume(dataSourceURL);
     } else {
