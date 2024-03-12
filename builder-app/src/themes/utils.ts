@@ -30,3 +30,25 @@ export const appendDOMChildNode = (ID: string, element: any) => {
     el.appendChild(element);
   }
 };
+
+export const downloadAsJSON = (object: any, filename = "resume") => {
+  console.log(object);
+  var dataStr =
+    "data:text/json;charset=utf-8," +
+    encodeURIComponent(JSON.stringify(object));
+  let elem = document.createElement("a");
+  elem.setAttribute("href", dataStr);
+  elem.setAttribute("download", `${filename}.json`);
+  elem.click();
+};
+
+export const copyToClipboard = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    console.log("Content copied to clipboard");
+    return true;
+  } catch (err) {
+    console.error("Failed to copy: ", err);
+    return false;
+  }
+};

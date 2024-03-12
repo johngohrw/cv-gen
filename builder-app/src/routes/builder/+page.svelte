@@ -7,6 +7,7 @@
   import FormSection from "../../components/Builder/FormSection.svelte";
   import TextInput from "../../components/Builder/TextInput.svelte";
   import ResumePreview from "../../components/ResumePreview.svelte";
+  import { copyToClipboard, downloadAsJSON } from "../../themes/utils";
 
   let formState: InputData = {
     defaultLanguage: "",
@@ -23,6 +24,13 @@
   let currentLanguage: string | null = null;
   let langIsAdding: boolean = false;
   let langCodeToAdd: string = "en";
+  let copied: boolean = false;
+
+  $: if (copied) {
+    setTimeout(() => {
+      copied = false;
+    }, 1000);
+  }
 
   const handleAddLanguage = () => {
     currentLanguage = langCodeToAdd;
@@ -46,9 +54,8 @@
   };
 
   const handleLoadJSON = async () => {
-    let imported;
     try {
-      imported = JSON.parse(jsonToImport);
+      const imported = JSON.parse(jsonToImport);
       formState = imported;
       sidebarState = "builder";
       const hasValidLanguage =
@@ -240,8 +247,19 @@
           readonly
         />
         <div class="flex flex-row gap-1">
-          <Button type="secondary">Copy to Clipboard</Button>
-          <Button type="secondary">Download as JSON</Button>
+          <Button
+            type="secondary"
+            on:click={async () => {
+              await copyToClipboard(JSON.stringify(formState)).then((res) => {
+                copied = true;
+              });
+            }}
+          >
+            {copied ? "Copied to Clipboard!" : "Copy to Clipboard"}
+          </Button>
+          <Button type="secondary" on:click={() => downloadAsJSON(formState)}
+            >Download as JSON</Button
+          >
         </div>
       </div>
     {/if}

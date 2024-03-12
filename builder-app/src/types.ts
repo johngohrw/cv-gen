@@ -27,9 +27,12 @@ export type SkillSection = Section<Skill[], "skillList"> & {
   labels: { low: string; high: string };
 };
 
-export type ValidSectionDataTypeNames = keyof typeof sectionMap
+export type ValidSectionDataTypeNames = keyof typeof sectionMap;
 
-export type Section<dataType, sectionDataTypeName extends ValidSectionDataTypeNames> = {
+export type Section<
+  dataType,
+  sectionDataTypeName extends ValidSectionDataTypeNames
+> = {
   title: string;
   data: dataType;
   type: sectionDataTypeName;
@@ -60,4 +63,7 @@ export type Theme = {
   contactItemTemplate: string;
   experienceSectionTemplate: string;
   skillsSectionTemplate: string;
+  icons: {
+    [key: string]: string;
+  };
 };

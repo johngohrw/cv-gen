@@ -1,15 +1,28 @@
-<script lang="ts">
-  const buttonTypes = ["secondary", "default", "success", "danger"] as const;
-  type ButtonType = (typeof buttonTypes)[number];
-  export let type: ButtonType = "default";
-  export let disabled = false;
+<script lang="ts" context="module">
+  const buttonTypes = [
+    "secondary",
+    "default",
+    "success",
+    "danger",
+    "naked",
+  ] as const;
+  export type ButtonType = (typeof buttonTypes)[number];
 
   const buttonSizes = {
     default: {
       style: "padding: 0.25rem 0.5rem; font-size: 13px;",
     },
+    naked: {
+      style: "",
+    },
   };
-  type ButtonSize = keyof typeof buttonSizes;
+  export type ButtonSize = keyof typeof buttonSizes;
+</script>
+
+<script lang="ts">
+  export let type: ButtonType = "default";
+  export let disabled = false;
+
   export let size: ButtonSize = "default";
 </script>
 
@@ -55,6 +68,11 @@
     background: #c31212;
     color: #f7f7f7;
 
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+  button.naked {
     &:disabled {
       opacity: 0.5;
     }

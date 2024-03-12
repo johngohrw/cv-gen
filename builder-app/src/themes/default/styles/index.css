@@ -85,6 +85,7 @@ ul.experience-list {
 }
 
 ul.experience-list li {
+  list-style-type: disc;
 }
 
 .skills-title-section {

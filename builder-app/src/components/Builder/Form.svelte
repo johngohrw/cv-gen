@@ -17,7 +17,8 @@
     margin-bottom: 0.15rem;
   }
 
-  .form :global(input) {
+  .form :global(input),
+  .form :global(select) {
     font-size: 12px;
   }
 </style>
