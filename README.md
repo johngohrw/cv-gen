@@ -1,38 +1,62 @@
-# create-svelte
+# cv-gen - a simple résumé builder & microsite
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+A customizable, print-friendly, yet simple resume-builder and microsite that lets you keep your own data.
 
-## Creating a project
+![Deploy to Netlify](./docs/preview.png)
 
-If you're seeing this, you've probably already done this step. Congrats!
+[Visit site](https://cv-gen-app.netlify.app/)
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+# How to use
 
-# create a new project in my-app
-npm create svelte@latest my-app
+Start by building your resume with the builder. Save your resume in JSON format and host it somewhere (Github or jsonbin.io).
+
+Place the URL leading to your JSON file into the loader to view it in a print-friendly website. You can then freely share the link for others to see.
+
+Alternatively, you can provide your JSON file as a URL parameter (`?data=`), and it will be viewed immediately upon visit:
+
+```
+https://cv-gen-app.netlify.app/?data=https://link.to/your/resume/data.json
 ```
 
-## Developing
+## Getting started
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Starting development instance
 
-```bash
+```
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+### Building
 
-To create a production version of your app:
+Builds to `./build` folder
 
-```bash
+```
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+## Hosting your microsite
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+You can easily deploy your own resume microsite with a couple of methods:
+
+### 1. Netlify
+
+Deploy this Git repository to your own Netlify site. You can configure it to automatically load a particular resume JSON URL upon visit using the following environment variables:
+
+```
+PUBLIC_PRELOADED_RESUME_DATA_URL="https://link.to/your/resume/export.json"
+```
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/johngohrw/cv-gen)
+
+### 2. Manual self-hosting
+
+First, create a file called `.env` in the root directory. Populate it with your resume's JSON export URL:
+
+```
+PUBLIC_PRELOADED_RESUME_DATA_URL="https://link.to/your/resume/export.json"
+```
+
+This ensures that the site will automatically load the given URL upon visiting.
+
+After installing dependencies with `npm install`, run the build script with `npm run build` and a `./build` folder will be generated, ready to be statically-served with a HTTP server.
