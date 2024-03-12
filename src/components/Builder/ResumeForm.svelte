@@ -1,14 +1,15 @@
 <script lang="ts">
   import { Plus } from "lucide-svelte";
-  import {
-    type Experience,
-    type Link,
-    type ResumeData,
-    type Skill,
-    type ValidSection,
-  } from "../../../../types";
+
   import { themes } from "../../themes";
-  import type { Theme } from "../../types";
+  import type {
+    Theme,
+    Experience,
+    Link,
+    ResumeData,
+    Skill,
+    ValidSection,
+  } from "../../types";
   import Button from "./Button.svelte";
   import Dropdown from "./Dropdown.svelte";
   import ListDropdownOptions from "./ListDropdownOptions.svelte";

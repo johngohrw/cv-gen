@@ -3,7 +3,7 @@ export const skillsSectionTemplate = `
     <div class="skills-title-section">
         <h2 id="title-skills" class="section-title text-section-title">{{this.title}}</h2>
         <div class="skills-legend">
-            <div id="label-rarely" class="skills-legend-label text-subtitle">rarely/past</div>
+            <div id="label-rarely" class="skills-legend-label text-subtitle">{{this.labels.low}}</div>
             <div class="skills-swatch">
                 <div class="swatch" style="background: var(--color-skill-1)"></div>
                 <div class="swatch" style="background: var(--color-skill-2)"></div>
@@ -11,7 +11,7 @@ export const skillsSectionTemplate = `
                 <div class="swatch" style="background: var(--color-skill-4)"></div>
                 <div class="swatch" style="background: var(--color-skill-5)"></div>
             </div>
-            <div id="label-often" class="skills-legend-label text-subtitle">often/current</div>
+            <div id="label-often" class="skills-legend-label text-subtitle">{{this.labels.high}}</div>
         </div>
     </div>
     <div class="skills-list text-body" id="skills-list">

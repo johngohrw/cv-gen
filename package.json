@@ -1,23 +1,36 @@
 {
   "name": "cv-gen",
-  "version": "1.0.0",
-  "description": "",
-  "source": [
-    "./src/index.html",
-    "./src/builder.html"
-  ],
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "dev": "node ./src/scripts/copyThemeStyles.js && parcel --no-cache",
-    "build": "node ./src/scripts/copyThemeStyles.js && parcel build",
-    "buildAll": "node ./src/scripts/copyThemeStyles.js && parcel build && cd builder-app && npm install && npm run build"
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.11.20",
-    "parcel": "^2.11.0"
+    "@iconify/svelte": "^3.1.6",
+    "@sveltejs/adapter-auto": "^3.0.0",
+    "@sveltejs/adapter-static": "^3.0.1",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "postcss-load-config": "^5.0.2",
+    "svelte": "^4.2.7",
+    "svelte-check": "^3.6.0",
+    "tailwindcss": "^3.3.6",
+    "tslib": "^2.4.1",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.3"
   },
+  "type": "module",
   "dependencies": {
-    "handlebars": "^4.7.8"
+    "clsx": "^2.1.0",
+    "handlebars": "^4.7.8",
+    "lucide-svelte": "^0.341.0",
+    "tailwind-merge": "^2.2.1",
+    "tailwind-variants": "^0.2.0"
   }
 }
