@@ -79,6 +79,7 @@
     <div class="text-[12px] text-white/70 opacity-70">
       made with <a
         class="text-blue-300"
+        target="_blank"
         href="https://github.com/johngohrw/cv-gen">cv-gen</a
       >
     </div>

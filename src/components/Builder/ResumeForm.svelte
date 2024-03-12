@@ -3,19 +3,18 @@
 
   import { themes } from "../../themes";
   import type {
-    Theme,
     Experience,
     Link,
     ResumeData,
     Skill,
+    Theme,
     ValidSection,
   } from "../../types";
   import Button from "./Button.svelte";
   import Dropdown from "./Dropdown.svelte";
-  import ListDropdownOptions from "./ListDropdownOptions.svelte";
-  import EllipsisVertical from "./EllipsisVertical.svelte";
   import Form from "./Form.svelte";
   import FormSection from "./FormSection.svelte";
+  import ListDropdownOptions from "./ListDropdownOptions.svelte";
   import SelectInput from "./SelectInput.svelte";
   import TextInput from "./TextInput.svelte";
 
