@@ -53,6 +53,10 @@
         Handlebars.compile(theme[sectionMap[section.type]])(section)
       );
     });
+
+    setTimeout(() => {
+      pageElement.style.opacity = "1";
+    }, 250);
   }
 </script>
 
@@ -74,13 +78,18 @@
     </div>
   {/if}
 
-  <div class="page-frame" id="page" bind:this={pageElement} />
+  <div
+    class="page-frame opacity-0 duration-200"
+    id="page"
+    bind:this={pageElement}
+  />
+
   <div id="credits-container" class="mb-4">
     <div class="text-[12px] text-white/70 opacity-70">
       made with <a
         class="text-blue-300"
         target="_blank"
-        href="https://github.com/johngohrw/cv-gen">cv-gen</a
+        href="https://cv-gen-app.netlify.app">cv-gen</a
       >
     </div>
   </div>
