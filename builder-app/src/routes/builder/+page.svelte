@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Menu } from "lucide-svelte";
-  import type { InputData } from "../../../../types";
   import Button from "../../components/Builder/Button.svelte";
   import Form from "../../components/Builder/Form.svelte";
   import ResumeForm from "../../components/Builder/ResumeForm.svelte";
@@ -8,11 +7,13 @@
   import TextInput from "../../components/Builder/TextInput.svelte";
   import ResumePreview from "../../components/ResumePreview.svelte";
   import { copyToClipboard, downloadAsJSON } from "../../themes/utils";
+  import type { InputData } from "../../types";
 
   let formState: InputData = {
     defaultLanguage: "",
     theme: "default",
     languages: {},
+    background: { type: "solid", color: "red" },
   };
   let jsonToImport: string = "";
   let sidebarWidth: number = 360;

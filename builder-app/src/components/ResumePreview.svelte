@@ -1,6 +1,6 @@
 <script lang="ts">
   import Handlebars from "handlebars";
-  import type { ResumeData } from "../types";
+  import type { InputData, ResumeData } from "../types";
   import { IDSchema } from "../themes/schema";
   import { themes } from "../themes";
   import {
@@ -15,7 +15,16 @@
   let theme = themes[themeName];
   let pageElement: HTMLDivElement;
 
-  export let resumeData: ResumeData;
+  export let inputData: InputData;
+
+  let currentLanguage = "";
+
+  $: if (inputData && inputData.defaultLanguage && !currentLanguage) {
+    currentLanguage = inputData.defaultLanguage;
+  }
+
+  $: resumeData =
+    inputData && currentLanguage ? inputData.languages[currentLanguage] : null;
 
   $: if (themeName) {
     import(`../themes/${themeName}/styles/index.css`);
@@ -46,7 +55,29 @@
 </script>
 
 <div class="flex flex-col items-center px-8" id="page-container">
+  <div id="languages-container" class="fixed bottom-[24px] left-[24px]">
+    <div class="flex flex-row flex-nowrap gap-1">
+      {#each Object.keys(inputData.languages) as language}
+        <Button
+          type={currentLanguage === language ? "default" : "naked"}
+          class={`px-1.5 py-0.5 text-[13px] ${currentLanguage === language ? "" : "bg-gray-200/80 opacity-50 hover:opacity-100"}`}
+          on:click={() => (currentLanguage = language)}
+          size="naked"
+        >
+          {language}
+        </Button>
+      {/each}
+    </div>
+  </div>
   <div class="page-frame" id="page" bind:this={pageElement} />
+  <div id="credits-container" class="mb-4">
+    <div class="text-[12px] text-white/70 opacity-70">
+      made with <a
+        class="text-blue-300"
+        href="https://github.com/johngohrw/cv-gen">cv-gen</a
+      >
+    </div>
+  </div>
   <Button
     type="default"
     class="fixed bottom-[24px] right-[24px] !text-[16px] !px-5 !py-2 !rounded-full font-medium"
@@ -73,7 +104,9 @@
       /* border: 4px solid green; */
       margin: 0;
     }
-    #page-container > :global(button) {
+    #page-container > :global(button),
+    #languages-container,
+    #credits-container {
       display: none;
     }
     #page {

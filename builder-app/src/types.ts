@@ -1,6 +1,24 @@
 import type { themes } from "./themes";
 import type { sectionMap } from "./themes/utils";
 
+export type Theme = {
+  name: string;
+  pageTemplate: string;
+  contactItemTemplate: string;
+  experienceSectionTemplate: string;
+  skillsSectionTemplate: string;
+  icons: {
+    [key: string]: string;
+  };
+};
+
+export type InputData = {
+  defaultLanguage: string;
+  theme: keyof typeof themes;
+  languages: { [langCode: string]: ResumeData };
+  background: Background;
+};
+
 export type ResumeData = {
   profile: Profile;
   sections: ValidSection[];
@@ -20,15 +38,6 @@ export type Link = {
   icon?: string;
 };
 
-export type ValidSection = ExperienceSection | SkillSection;
-
-export type ExperienceSection = Section<Experience[], "experienceList">;
-export type SkillSection = Section<Skill[], "skillList"> & {
-  labels: { low: string; high: string };
-};
-
-export type ValidSectionDataTypeNames = keyof typeof sectionMap;
-
 export type Section<
   dataType,
   sectionDataTypeName extends ValidSectionDataTypeNames
@@ -36,6 +45,14 @@ export type Section<
   title: string;
   data: dataType;
   type: sectionDataTypeName;
+};
+
+export type ValidSection = ExperienceSection | SkillSection;
+export type ValidSectionDataTypeNames = keyof typeof sectionMap;
+
+export type ExperienceSection = Section<Experience[], "experienceList">;
+export type SkillSection = Section<Skill[], "skillList"> & {
+  labels: { low: string; high: string };
 };
 
 export type Experience = {
@@ -51,19 +68,20 @@ export type Skill = {
   level: 1 | 2 | 3 | 4 | 5;
 };
 
-export type InputData = {
-  defaultLanguage: string;
-  theme: keyof typeof themes;
-  languages: { [langCode: string]: ResumeData };
+// background types
+export type Background = SolidBackground | YoutubeBackground | VideoBackground;
+
+type SolidBackground = {
+  type: "solid";
+  color: string;
 };
 
-export type Theme = {
-  name: string;
-  pageTemplate: string;
-  contactItemTemplate: string;
-  experienceSectionTemplate: string;
-  skillsSectionTemplate: string;
-  icons: {
-    [key: string]: string;
-  };
+type VideoBackground = {
+  type: "video";
+  src: string;
+};
+
+type YoutubeBackground = {
+  type: "youtube";
+  src: string;
 };

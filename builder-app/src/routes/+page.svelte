@@ -1,19 +1,12 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { getSearchParams } from "@/url";
-  import type { InputData, ResumeData } from "../types";
-  import ResumePreview from "../components/ResumePreview.svelte";
-  import Message from "../components/Message.svelte";
-  import Welcome from "../components/Welcome.svelte";
+  import { onMount } from "svelte";
   import FadeIn from "../components/FadeIn.svelte";
   import LandingLayout from "../components/LandingLayout.svelte";
-  import Button from "../components/Builder/Button.svelte";
-  import {
-    LucidePrinter,
-    PawPrintIcon,
-    Printer,
-    PrinterIcon,
-  } from "lucide-svelte";
+  import Message from "../components/Message.svelte";
+  import ResumePreview from "../components/ResumePreview.svelte";
+  import Welcome from "../components/Welcome.svelte";
+  import type { InputData, ResumeData } from "../types";
 
   let inputData: InputData;
   let resumeData: ResumeData;
@@ -66,7 +59,7 @@
 
 <div class="h-full overflow-auto">
   {#if resumeData}
-    <ResumePreview {resumeData} />
+    <ResumePreview {inputData} />
   {:else if !isLoadingResume}
     <FadeIn class="h-full">
       <LandingLayout>
