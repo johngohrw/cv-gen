@@ -4,7 +4,7 @@ A customizable, print-friendly, yet simple resume-builder and microsite that let
 
 ![Deploy to Netlify](./docs/preview.png)
 
-[Visit site](https://cv-gen-app.netlify.app/)
+[Visit site](https://cv-gen-app.netlify.app/) | [Resume builder](https://cv-gen-app.netlify.app/builder)
 
 # How to use
 
