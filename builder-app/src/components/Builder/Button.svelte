@@ -22,6 +22,7 @@
 <script lang="ts">
   export let type: ButtonType = "default";
   export let disabled = false;
+  export let id = "";
 
   export let size: ButtonSize = "default";
 </script>
@@ -30,6 +31,7 @@
   class={`button flex flex-nowrap items-center justify-center ${type} ${$$restProps.class}`}
   style={`${buttonSizes[size].style}`}
   {disabled}
+  {id}
   on:click
 >
   <slot name="icon" />

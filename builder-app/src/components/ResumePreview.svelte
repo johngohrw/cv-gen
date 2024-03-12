@@ -8,6 +8,7 @@
     sectionMap,
     setDOMInnerHTML,
   } from "../themes/utils";
+  import Button from "./Builder/Button.svelte";
 
   let themeName: keyof typeof themes = "default";
   export { themeName as theme };
@@ -44,11 +45,47 @@
   }
 </script>
 
-<div class="flex flex-col items-center px-8">
+<div class="flex flex-col items-center px-8" id="page-container">
   <div class="page-frame" id="page" bind:this={pageElement} />
+  <Button
+    type="default"
+    class="fixed bottom-[24px] right-[24px] !text-[16px] !px-5 !py-2 !rounded-full font-medium"
+    on:click={() => print()}
+  >
+    Print
+  </Button>
 </div>
 
 <style>
+  @media print {
+    :global(body),
+    :global(body) > :global(div),
+    :global(body) > :global(div) > :global(div),
+    #page-container {
+      background: none !important;
+      padding: 0px !important;
+      min-height: unset !important;
+      margin: 0px !important;
+      box-shadow: unset !important;
+      transform: none !important;
+    }
+    :global(:not(#page *)) {
+      /* border: 4px solid green; */
+      margin: 0;
+    }
+    #page-container > :global(button) {
+      display: none;
+    }
+    #page {
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: none !important;
+      box-shadow: unset !important;
+      transform: none !important;
+    }
+  }
+
   #page {
     transition-duration: 200ms;
     transition-delay: 200ms;

@@ -69,8 +69,14 @@
   };
 </script>
 
-<div class="absolute inset-0 h-full bg-gray-800 overflow-auto">
-  <div class="fixed top-0 inset-x-0 h-[40px] bg-gray-100 z-10 shadow-md">
+<div
+  id="resume-builder-page-container"
+  class="absolute inset-0 h-full bg-gray-800 overflow-auto"
+>
+  <div
+    id="resume-builder-header"
+    class="fixed top-0 inset-x-0 h-[40px] bg-gray-100 z-10 shadow-md"
+  >
     <div
       class="h-full w-full relative flex flex-row items-center justify-between"
     >
@@ -111,6 +117,7 @@
   </div>
 
   <div
+    id="form-builder"
     class="flex flex-col gap-3 fixed bg-gray-200 duration-200 px-2 overflow-auto pt-[40px] h-full"
     style="width: {sidebarWidth}px; left: {showSidebar ? 0 : -sidebarWidth}px;"
   >
@@ -246,7 +253,7 @@
           value={JSON.stringify(formState)}
           readonly
         />
-        <div class="flex flex-row gap-1">
+        <div class="flex flex-row gap-1 mb-1">
           <Button
             type="secondary"
             on:click={async () => {
@@ -261,10 +268,14 @@
             >Download as JSON</Button
           >
         </div>
+        <div>
+          <Button type="secondary" on:click={() => print()}>Save as PDF</Button>
+        </div>
       </div>
     {/if}
   </div>
   <div
+    id="resume-builder-preview-container"
     class="duration-200 h-full pt-[40px]"
     style="margin-left: {showSidebar ? sidebarWidth : 0}px;"
   >
@@ -278,4 +289,19 @@
 </div>
 
 <style>
+  @media print {
+    #resume-builder-preview-container,
+    #resume-builder-page-container {
+      background: none !important;
+      padding: 0px !important;
+      min-height: unset !important;
+      margin: 0px !important;
+      box-shadow: unset !important;
+      transform: none !important;
+    }
+    #form-builder,
+    #resume-builder-header {
+      display: none !important;
+    }
+  }
 </style>

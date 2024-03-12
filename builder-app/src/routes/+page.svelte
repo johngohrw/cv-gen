@@ -7,6 +7,13 @@
   import Welcome from "../components/Welcome.svelte";
   import FadeIn from "../components/FadeIn.svelte";
   import LandingLayout from "../components/LandingLayout.svelte";
+  import Button from "../components/Builder/Button.svelte";
+  import {
+    LucidePrinter,
+    PawPrintIcon,
+    Printer,
+    PrinterIcon,
+  } from "lucide-svelte";
 
   let inputData: InputData;
   let resumeData: ResumeData;
