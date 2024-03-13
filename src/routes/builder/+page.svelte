@@ -285,6 +285,7 @@
         inputData={formState}
         theme="default"
         hideLanguages
+        renderOnlyOnce={false}
         {currentLanguage}
       />
     {/if}

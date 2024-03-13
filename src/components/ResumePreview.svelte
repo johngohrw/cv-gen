@@ -13,7 +13,11 @@
   let themeName: keyof typeof themes = "default";
   export { themeName as theme };
   let theme = themes[themeName];
+
   let pageElement: HTMLDivElement;
+  let initialLoadComplete: boolean = false;
+  export let renderOnlyOnce: boolean = true;
+
   export let hideLanguages: boolean = false;
   export let hidePrint: boolean = false;
 
@@ -32,7 +36,12 @@
     import(`../themes/${themeName}/styles/index.css`);
   }
 
-  $: if (pageElement && theme && resumeData) {
+  $: if (
+    pageElement &&
+    theme &&
+    resumeData &&
+    !(renderOnlyOnce && initialLoadComplete)
+  ) {
     // load page template
     pageElement.innerHTML = Handlebars.compile(theme.pageTemplate)({});
 
@@ -54,9 +63,15 @@
       );
     });
 
-    setTimeout(() => {
+    if (renderOnlyOnce && !initialLoadComplete) {
+      setTimeout(() => {
+        pageElement.style.opacity = "1";
+      }, 250);
+    } else {
       pageElement.style.opacity = "1";
-    }, 250);
+    }
+
+    initialLoadComplete = true;
   }
 </script>
 
